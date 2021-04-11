@@ -1,25 +1,32 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Gnomes } from './Gnomes';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const url =
+	'https://raw.githubusercontent.com/rrafols/mobile_test/master/data.json';
 
-export default App;
+export const App = () => {
+	const [gnomes, setGnomes] = useState([]);
+	const [loaded, setLoaded] = useState(false);
+
+	useEffect(() => {
+		fetch(url)
+			.then((data) => data.json())
+			.then(({ Brastlewark }) => {
+				console.log(Brastlewark);
+				setGnomes(Brastlewark);
+			});
+	}, []);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setLoaded(gnomes.length !== 0);
+		}, 5000);
+	}, [gnomes]);
+
+	return (
+		<div className="App">
+			{loaded ? <Gnomes gnomes={gnomes} /> : <span>Cargando Gnomos...</span>}
+		</div>
+	);
+};
