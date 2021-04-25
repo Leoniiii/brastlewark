@@ -1,20 +1,28 @@
 import React from 'react';
 
 export const Card = ({ data }) => {
-	if (data?.name) {
+	const { name, friends, thumbnail, professions, age } = data;
+
+	if (name) {
 		return (
 			<div data-testid="card" className="card">
 				<div data-testid="card-image">
-					{data.thumbnail ? (
-						<img data-testid="card-thumbnail" src={data.thumbnail} />
+					{thumbnail ? (
+						<img data-testid="card-thumbnail" src={thumbnail} />
 					) : (
 						<img data-testid="image-placeholder" />
 					)}
 				</div>
-				<h2 data-testid="card-name">{data?.name}</h2>
-				<p data-testid="card-age">{data?.age || ''}</p>
-				<p data-testid="card-friends"></p>
-				<p data-testid="card-professions"></p>
+				Name: <h2 data-testid="card-name">{name}</h2>
+				age:<p data-testid="card-age">{age || ''}</p>
+				Friends:
+				<p data-testid="card-friends">
+					{friends ? friends.length || 'No friends' : 'No data'}
+				</p>
+				Professions:
+				<p data-testid="card-professions">
+					{professions ? professions.length || 'No professions' : 'No data'}
+				</p>
 			</div>
 		);
 	}

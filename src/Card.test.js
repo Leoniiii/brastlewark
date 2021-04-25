@@ -29,6 +29,52 @@ test('when a Card component is used and data prop is not empty THEN the card ren
 
 test('WHEN data does not includes an image, THEN show an default image', () => {
 	const data = { name: 'Gnome name', age: 1000 };
-	const { queryByTestId, debug } = render(<Card data={data} />);
+	const { queryByTestId } = render(<Card data={data} />);
 	expect(queryByTestId('image-placeholder')).toBeInTheDocument();
+});
+
+test('WHEN friends is not defined, THEN need to display a default message', () => {
+	const data = { name: 'Gnome name' };
+	const { queryByTestId, debug } = render(<Card data={data} />);
+	expect(queryByTestId('card-friends').innerHTML).toBe('No data');
+});
+
+test('WHEN friends list is empty, THEN need to display a default message', () => {
+	const data = { name: 'Gnome name', friends: [] };
+	const { queryByTestId } = render(<Card data={data} />);
+	expect(queryByTestId('card-friends').innerHTML).toBe('No friends');
+});
+
+test('WHEN friends is not empty, THEN need to display the number of friends', () => {
+	const data = { name: 'Gnome name', friends: ['lola', 'manu'] };
+	const { queryByTestId } = render(<Card data={data} />);
+	expect(queryByTestId('card-friends').innerHTML).toBe(
+		data.friends.length.toString()
+	);
+});
+
+test('WHEN professions is not defined, THEN need to display a default message', () => {
+	const data = { name: 'Gnome name' };
+	const { queryByTestId } = render(<Card data={data} />);
+	expect(queryByTestId('card-professions').innerHTML).toBe('No data');
+});
+
+test('WHEN professions list is empty, THEN need to display a default message', () => {
+	const data = {
+		name: 'Gnome name',
+		professions: [],
+	};
+	const { queryByTestId } = render(<Card data={data} />);
+	expect(queryByTestId('card-professions').innerHTML).toBe('No professions');
+});
+
+test('WHEN professions list is not empty, THEN need to display the number of professions', () => {
+	const data = {
+		name: 'Gnome name',
+		professions: ['desarrollador', 'carpintero'],
+	};
+	const { queryByTestId } = render(<Card data={data} />);
+	expect(queryByTestId('card-professions').innerHTML).toBe(
+		data.professions.length.toString()
+	);
 });
